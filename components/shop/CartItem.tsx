@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { colors } from "../../constant/colors";
 import { removeFormCart } from "../../store/actions/cart";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, ...props }) => {
   const dispatch = useDispatch();
   return (
     <View style={styles.cartItem}>
@@ -16,18 +16,20 @@ const CartItem = ({ item }) => {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.title}>${item.sum.toFixed(2)}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(removeFormCart(item.id));
-          }}
-          style={styles.deleteButton}
-        >
-          <Ionicons
-            name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
-            size={23}
-            color="red"
-          />
-        </TouchableOpacity>
+        {props.deletable && (
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(removeFormCart(item.id));
+            }}
+            style={styles.deleteButton}
+          >
+            <Ionicons
+              name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
+              size={23}
+              color="red"
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
